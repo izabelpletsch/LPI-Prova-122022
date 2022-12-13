@@ -1,3 +1,8 @@
+<input class="form-control" type="text" #userName>
+<input class="form-control" type="text" #userUsername>
+
+<button class="btn btn-primary" type="submit" (click)="add(userName.value); userName.value = ''">Salvar</button>
+
 <ul class="todos">
     <li *ngFor="let todo of todos">
       <button class="todo" type="button">
