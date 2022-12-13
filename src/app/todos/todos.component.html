@@ -1,1 +1,8 @@
-<div class="todo">A fazer #1</div>
+<ul class="todos">
+    <li *ngFor="let todo of todos">
+      <button class="todo" type="button">
+        <span class="badge">{{todo.id}}</span>
+        <span class="name">{{todo.title}}</span>
+      </button>
+    </li>
+  </ul>

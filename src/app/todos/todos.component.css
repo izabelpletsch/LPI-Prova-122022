@@ -1,7 +1,8 @@
-
 .todo {
     background: #eee;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    margin: 0 auto;
+    width: 40%;
 }
