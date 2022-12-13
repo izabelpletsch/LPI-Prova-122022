@@ -10,7 +10,7 @@ import { Todo } from './todo';
 @Injectable({ providedIn: 'root' })
 export class TodoService {
 
-  private todoesUrl = 'api/todoes';  // URL to web api
+  private todosUrl = 'https://jsonplaceholder.typicode.com/todos';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -19,20 +19,20 @@ export class TodoService {
   constructor(
     private http: HttpClient) { }
 
-  /** GET todoes from the server */
-  getTodoes(): Observable<Todo[]> {
-    return this.http.get<Todo[]>(this.todoesUrl)
+  /** GET todos from the server */
+  getTodos(): Observable<Todo[]> {
+    return this.http.get<Todo[]>(this.todosUrl)
       .pipe(
-        catchError(this.handleError<Todo[]>('getTodoes', []))
+        catchError(this.handleError<Todo[]>('getTodos', []))
       );
   }
 
   /** GET todo by id. Return `undefined` when id not found */
   getTodoNo404<Data>(id: number): Observable<Todo> {
-    const url = `${this.todoesUrl}/?id=${id}`;
+    const url = `${this.todosUrl}/?id=${id}`;
     return this.http.get<Todo[]>(url)
       .pipe(
-        map(todoes => todoes[0]), // returns a {0|1} element array
+        map(todos => todos[0]), // returns a {0|1} element array
         tap(h => {
           const outcome = h ? 'fetched' : 'did not find';
         }),
@@ -42,20 +42,20 @@ export class TodoService {
 
   /** GET todo by id. Will 404 if id not found */
   getTodo(id: number): Observable<Todo> {
-    const url = `${this.todoesUrl}/${id}`;
+    const url = `${this.todosUrl}/${id}`;
     return this.http.get<Todo>(url).pipe(
       catchError(this.handleError<Todo>(`getTodo id=${id}`))
     );
   }
 
-  /* GET todoes whose name contains search term */
-  searchTodoes(term: string): Observable<Todo[]> {
+  /* GET todos whose name contains search term */
+  searchTodos(term: string): Observable<Todo[]> {
     if (!term.trim()) {
       // if not search term, return empty todo array.
       return of([]);
     }
-    return this.http.get<Todo[]>(`${this.todoesUrl}/?name=${term}`).pipe(
-      catchError(this.handleError<Todo[]>('searchTodoes', []))
+    return this.http.get<Todo[]>(`${this.todosUrl}/?name=${term}`).pipe(
+      catchError(this.handleError<Todo[]>('searchTodos', []))
     );
   }
 
@@ -63,14 +63,14 @@ export class TodoService {
 
   /** POST: add a new todo to the server */
   addTodo(todo: Todo): Observable<Todo> {
-    return this.http.post<Todo>(this.todoesUrl, todo, this.httpOptions).pipe(
+    return this.http.post<Todo>(this.todosUrl, todo, this.httpOptions).pipe(
       catchError(this.handleError<Todo>('addTodo'))
     );
   }
 
   /** DELETE: delete the todo from the server */
   deleteTodo(id: number): Observable<Todo> {
-    const url = `${this.todoesUrl}/${id}`;
+    const url = `${this.todosUrl}/${id}`;
 
     return this.http.delete<Todo>(url, this.httpOptions).pipe(
       catchError(this.handleError<Todo>('deleteTodo'))
@@ -79,7 +79,7 @@ export class TodoService {
 
   /** PUT: update the todo on the server */
   updateTodo(todo: Todo): Observable<any> {
-    return this.http.put(this.todoesUrl, todo, this.httpOptions).pipe(
+    return this.http.put(this.todosUrl, todo, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateTodo'))
     );
   }
